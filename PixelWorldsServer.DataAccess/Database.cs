@@ -22,6 +22,7 @@ public class Database
 
         var connectionString = Environment.GetEnvironmentVariable("MONGODB_URI") 
                        ?? m_DatabaseSettings.Value.ConnectionString;
+        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
         m_MongoClient = new MongoClient(connectionString);
         
