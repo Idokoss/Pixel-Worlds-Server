@@ -20,7 +20,11 @@ public class Database
         m_Logger.LogInformation("Connecting to MongoDB...");
         m_DatabaseSettings = databaseSettings;
 
-        m_MongoClient = new MongoClient(m_DatabaseSettings.Value.ConnectionString);
+        var connectionString = Environment.GetEnvironmentVariable("MONGODB_URI") 
+                       ?? m_DatabaseSettings.Value.ConnectionString;
+
+        m_MongoClient = new MongoClient(connectionString);
+        
         m_MongoDatabase = m_MongoClient.GetDatabase(m_DatabaseSettings.Value.DatabaseName);
         m_WorldsCollection = m_MongoDatabase.GetCollection<WorldModel>(m_DatabaseSettings.Value.WorldsCollectionName);
         m_PlayersCollection = m_MongoDatabase.GetCollection<PlayerModel>(m_DatabaseSettings.Value.PlayersCollectionName);
